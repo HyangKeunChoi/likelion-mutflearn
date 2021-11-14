@@ -1,0 +1,112 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block style %}
+<link rel="stylesheet" href="{% static 'lectures/style.css' %}">
+{% endblock %}
+{% block content %}
+
+    <!-- header -->
+    <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+        <a class="navbar-brand" href="/main/" style="margin: 5px; color: green;" > 멋프런</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample03" aria-controls="navbarsExample03" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarsExample03">
+          <ul class="nav navbar-nav navbar-right">
+            <li class="nav-item" style="margin-left: 35px;">
+              <a class="text-decoration-none" href="{% url 'lecture:index' %}">
+                <!-- <button class="btn btn-light">모든 강의</button>  -->
+                <div style="font-size: 19px; color: white; margin-top: 6px;">모든 강의</div>
+              </a>
+              <!-- <a class="text-decoration-none" href="{% url 'lecture:index' %}">모든 강의</a> -->
+              <!-- <a class="nav-link" href="#">모든 강의</a> -->
+            </li>
+      
+            <!-- 로그인이 되어 있는 경우 -->
+            {% if user.is_authenticated %}
+            <form method="POST" action="{% url 'accounts:logout' %}">
+              {% csrf_token %}
+              
+              <!-- 장고 userModel 함수 -->
+              <span style="font-size: 18px; color: white; margin-left: 25px;">{{ user.get_username }}님 환영합니다.</span> 
+              <button type="submit" class="btn btn-primary ms-3 pull-right">LOGOUT</button>
+            {% else %}
+            </div>
+             <li class="nav-item justify-content-end ">
+              <a class="text-decoration-none" href="{% url 'accounts:login' %}">
+                 <button class="btn btn-primary ">로그인</button>
+               </a>
+            </li>
+      
+            <li class="nav-item justify-content-end">
+              <a class="text-decoration-none" href="{% url 'accounts:sign_up' %}">
+                <button class="btn btn-primary ms-3 " style="margin-right: 20px;">회원가입</button>
+            </a>
+            </li>
+            {% endif %}
+      
+          </ul>
+          <!--  -->
+      
+          
+        </div>
+      </nav>
+    <!-- header end -->
+    &nbsp; 
+      
+
+
+    <div class="container">
+        <h1>모든 강의</h1>
+        <button type="button" class="btn btn-outline-success"><a href="/lecture/new/">동영상 등록하기</a></button>
+        <br>
+        <br>
+        <br>
+    {% if lectures %}
+
+      {% for lecture in lectures %}
+        {% if lecture.image %}
+            
+        <div class="lecture" >
+            <div class="mb-3 col-md-6">
+                <a href="{% url 'lecture:detail' lecture.id %}"> <img src="{{ lecture.image.url }}" alt="Post Image" class="content-img"></a>
+            </div>
+        </div>
+        {% endif%}
+        {% endfor %}
+
+      
+  
+<!-- <ul>
+    {% for post in posts %}
+         <li>Author : {{post.author}} | Body: {{post.body}}</li>
+    {% endfor %}
+</ul>
+-->
+{% else %}
+    <p>No lecture</p>
+{% endif %}
+
+
+
+    <!-- {% if dog %}
+    <div class="card mt-3">
+        <div class="row g-0">
+            <div class="col-md-4">
+                <img src="{{ dog }}" alt="Dog Image" class="card-img">
+            </div>
+            <div class="col-md-8 card-body">
+                <h5 class="card-title">강아지를 보고 싶다면?</h5>
+                <p class="card-text">Dog API를 사용합시다.</p>
+                <a href="https://dog.ceo/dog-api/" class="card-link" target="_blank">Dog API</a>
+            </div>
+
+        </div>
+    </div>
+
+    {% endif %} -->
+
+</div>
+{% endblock %}

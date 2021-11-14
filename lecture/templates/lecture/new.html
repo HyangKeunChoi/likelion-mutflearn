@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+    {% block style %}
+        <link rel="stylesheet" href="{% static 'lectures/style.css' %}">
+    {% endblock %}
+{% block content %}
+
+
+
+<div class="container">
+    <h1>New lecture</h1>
+<!-- create/ 마지막에 /를 붙여야한다 -->
+<!-- <form method = "POST" action="/posts/create/"> -->
+<form method = "POST" action="{% url 'lecture:create' %}" enctype="multipart/form-data">    
+       
+<!-- csrf 위조공격 -->
+<!-- request에 csrf토큰을 같이 보내서 우리가 보낸건지 해커가 보낸건지 구분한다 -->
+{% csrf_token %}
+ <!--margin bottom 3-->
+<!-- <div class="mb-3 col-md-6">
+    <label for="Author"  class="form-label">Author</label>
+    <input id="Author" type="text" name="author" class="form-control">
+</div> -->
+
+<div class="mb-3 col-md-6">
+    <label for="title" class="form-label">제목</label>
+    <textarea id="title" cols="1" rows="1" name="title" class="form-control"></textarea>
+</div>    
+
+<div class="mb-3 col-md-6">
+    <label for="body" class="form-label">본문</label>
+    <textarea id="body" cols="30" rows="10" name="body" class="form-control"></textarea>
+</div>    
+
+<div class="mb-3 col-md-6">
+    <label for="image" class="form-label">이미지</label>
+    <input type="file" class="form-control" id="image" name="image">
+</div>
+
+<div class="mb-3 col-md-6">
+    <label for="video_key">Video Key</label>
+    <input type="text" name="video_key" class="form-control" id="video_key" placeholder="Video Key">
+</div>
+
+<div class="mb-3">
+    <button type="submit" class="btn btn-primary">작성하기</button>
+</div>
+
+</form>
+
+
+<!-- <a href="{% url 'lecture:index' %}">목록</a> -->
+</div>
+
+{% endblock %}

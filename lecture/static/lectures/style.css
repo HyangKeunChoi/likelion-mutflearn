@@ -1,0 +1,27 @@
+a:link { color: black; text-decoration: none;}
+a:visited { color: black; text-decoration: none;}
+a:hover { color: blue; text-decoration: underline;}
+
+.btn-outline-success{
+    float: right;
+}
+
+/* 강의 목록 */
+
+.lecture{
+  display: inline-block;
+  flex-wrap: wrap;
+  flex-direction: column;
+  width: 33%;
+  height: 400px;
+  align-items: center;
+}
+
+.content-img {
+    width: 300px;
+    height: 250px;
+    border: 3px solid #ebebeb;
+    overflow: hidden;
+    align-content: space-between;
+    box-shadow: 0 0 0 2px #ebebeb;
+}

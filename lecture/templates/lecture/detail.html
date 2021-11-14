@@ -1,0 +1,96 @@
+    {% extends 'base.html' %} <!-- 항상 맨위에 위치해야 된다-->
+
+    {% load static %}
+
+    {% block style %}
+        <link rel="stylesheet" href="{% static 'lectures/style.css' %}">
+    {% endblock %}
+ 
+    {% block content %}
+
+    <div class="container">
+    <h1>Lecture Detail</h1>
+    
+    <table class="table table-sm table-Info">
+        <thead>
+          <tr>
+            <th scope="col"><input readonly id="title" type="text" name="title" class="form-control-plaintext" value="{{ lecture.title }}"></th>
+            <th scope="col">등록자</th>            
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td table-active"><div id="player"></div></td>
+            <td><input readonly id="Author" type="text" name="author" class="form-control-plaintext" value="{{ lecture.user.get_username }}"></td>
+            </tr>
+            <tr>
+                <td>등록일</td>
+                <td>{{ lecture.created_at }}</td>
+            </tr>           
+            <tr>
+                <td>좋아요</td>
+                <td>{{ lecture.liked_lectures.count }}</td>
+            </tr>
+            
+        </tbody>
+      </table>
+    
+      {% if user.is_authenticated %}
+      <form action="{% url 'lecture:like' lecture.id %}" method="post">
+          {% csrf_token %}
+          
+          <!-- 현재 유저가 좋아요를 누른 사용자들 안에 있다면 -->
+          {% if user in lecture.liked_lectures.all %}
+            <button type="submit" class="btn btn-secondary">
+                 LIKE
+              </button>
+             {% else %}
+              
+                <button type="submit" class="btn btn-primary">
+                  LIKE
+              </button>
+          {% endif %}
+      </form>
+      {% endif %}
+    
+    <div class="mb-3 col-md-6">
+        <label for="body" class="form-label">강의 소개</label>
+        <textarea readonly id="body" name="body" class="form-control-plaintext">{{ lecture.body }}</textarea>
+    </div>    
+
+    <!-- <a href="/posts">목록</a> -->
+    <button type="submit" class="btn btn-success"> <a href="{% url 'lecture:index' %}">목록</a></button>
+
+    <!-- 본인이 작성한 게시물만 수정하기 삭제하기 버튼이 보인다. -->
+    {% if user == lecture.user %}
+    <button type="submit" class="btn btn-info"> <a href="{% url 'lecture:edit' lecture.id %}">수정하기</a></button>
+
+    <button type="submit" class="btn btn-danger" onclick="deletess()"> <a href="{% url 'lecture:delete' lecture.id %}">삭제하기</a> </button>
+    {% endif %}
+    </div>
+
+    <script>
+       var tag = document.createElement('script');
+
+        tag.src = "https://www.youtube.com/iframe_api";
+        var firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+        var player;
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('player', {
+                videoId: '{{ lecture.video_key }}'
+            });
+        }
+
+        function deletess() {
+          if (window.confirm("정말 삭제 하시겠습니까?")) {
+            
+          } else {
+            return;
+          }
+
+        }
+    </script>
+
+    {% endblock %}

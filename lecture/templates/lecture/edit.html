@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block style %}
+        <link rel="stylesheet" href="{% static 'lectures/style.css' %}">
+    {% endblock %}   
+{% block content %}
+
+  
+ 
+
+<div class="container">
+<h1>Edit Post</h1>
+
+        <!-- {% if lecture.image %}
+            <div class="mb-3 col-md-6">
+                <img src="{{ lecture.image.url }}" alt="Post Image" class="img-fluid">
+            </div>
+        {% endif%} -->
+    
+
+<!-- create/ 마지막에 /를 붙여야한다 -->
+<!-- <form method = "POST" action="/posts/create/"> -->
+<form method = "POST" action="{% url 'lecture:update' lecture.id %}" enctype="multipart/form-data">    
+
+<!-- csrf 위조공격 -->
+<!-- request에 csrf토큰을 같이 보내서 우리가 보낸건지 해커가 보낸건지 구분한다 -->
+{% csrf_token %}
+<!-- <div class="mb-3 col-md-6">
+    <label for="Author" >Author</label>
+    <input id="Author" type="text" name="author" value="{{post.author}}">
+</div> -->
+<div class="mb-3 col-md-6">
+    <label for="title" class="form-label">제목</label>
+    <textarea id="title" cols="1" rows="1" name="title" class="form-control">{{lecture.title}}</textarea>
+</div>   
+
+<div class="mb-3 col-md-6">
+    <label for="body" class="form-label">본문</label>
+    <textarea id="body" cols="30" rows="10" name="body" class="form-control">{{lecture.body}}</textarea>
+</div>    
+
+<div class="mb-3 col-md-6">
+    <label for="image" class="form-label">이미지</label>
+    <input type="file" class="form-control" id="image" name="image">
+</div>
+
+<div class="mb-3">
+    <button type="submit" class="btn btn-primary">수정하기</button>
+</div>
+</form>
+
+
+<button class="btn btn-primary "><a href="{% url 'lecture:index' %}">목록</a></button>
+</div>
+{% endblock %}

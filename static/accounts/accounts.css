@@ -1,0 +1,14 @@
+.container {
+    width: 600px;
+    height: 600px;
+    position: absolute;
+    top: 35%;
+    left: 50%;
+    margin-top: -100px;
+    margin-left: -100px;
+}
+
+.pull-right {
+    float: right !important;
+}
+
